@@ -13,6 +13,7 @@ import java.util.List;
 
 @Service
 public class LibraryService {
+    // TODO split into 3 services (BookService, AuthorService, LibraryService)
     List<Book> bookList = new ArrayList<>();
     List<Author> authorList = new ArrayList<>();
 
@@ -20,8 +21,12 @@ public class LibraryService {
         return bookList.stream().toList();
     }
 
+    public List<Author> getAllAuthorList() {
+        return authorList.stream().toList();
+    }
+
     public List<Book> getFilteredBookList(String searchValue, String filter, String year) {
-        List<Book> booksFiltered = new ArrayList<>();
+        List<Book> booksFiltered;
         if (filter.equals("bookFilter"))
             booksFiltered = filterByBook(searchValue, year);
         else booksFiltered = filterByAuthor(searchValue);
@@ -48,6 +53,36 @@ public class LibraryService {
                 booksFiltered.addAll(author.getBooks());
         }
         return booksFiltered;
+    }
+
+    public List<Author> getFilteredAuthorList(String searchValue, String filter, String year) {
+        List<Author> authorsFiltered;
+        if (filter.equals("bookFilter"))
+            authorsFiltered = filterAuthorsByBook(searchValue, year);
+        else authorsFiltered = filterAuthorsByAuthor(searchValue);
+        return authorsFiltered;
+    }
+
+    private List<Author> filterAuthorsByBook(String searchValue, String yearStr) {
+        List<Author> authorsFiltered = new ArrayList<>();
+        int year;
+        for (Book book : bookList) {
+            if (yearStr.isEmpty())
+                year = book.getYear();
+            else year = Integer.parseInt(yearStr);
+            if (book.getTitle().toLowerCase().contains(searchValue.toLowerCase()) && book.getYear() == year)
+                authorsFiltered.addAll(book.getAuthors());
+        }
+        return authorsFiltered;
+    }
+
+    private List<Author> filterAuthorsByAuthor(String searchValue) {
+        List<Author> authorsFiltered = new ArrayList<>();
+        for (Author author : authorList) {
+            if (author.getNameAndSurname().toLowerCase().contains(searchValue.toLowerCase()))
+                authorsFiltered.add(author);
+        }
+        return authorsFiltered;
     }
 
     public int newBookId() {
@@ -94,6 +129,7 @@ public class LibraryService {
     }
 
     public void addBook(String bookTitle, String bookYear, List<Author> authors) throws Exception {
+        // TODO make write to 3 files (books.txt, authors.txt, book_author_links.txt)
         if (getBookByTitleAndYear(bookTitle, Integer.parseInt(bookYear)) != null)
             return;
         Book book = new Book(newBookId(), bookTitle, Integer.parseInt(bookYear));

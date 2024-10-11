@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Library by Tumanov</title>
+</head>
+<body>
+<div>
+  <form action="authors" method="get">
+    <label for="searchValue">Поиск:</label>
+    <br>
+    <input type="text" name="searchValue" id="searchValue" th:value="${searchValue}">
+    <br>
+    <label for="filter">Поиск по:</label>
+    <select id="filter" name="filter" th:value="${filter}">
+      <option value="bookFilter">книге</option>
+      <option value="authorFilter">автору</option>
+    </select>
+    <button type="submit">Выбрать</button>
+    <p th:if="${isBookFilter}">
+      <label for="year">Год публикации:</label>
+      <br>
+      <input type="text" name="year" id="year" th:value="${year}">
+    </p>
+    <br>
+    <button type="submit">Поиск</button>
+    <button type="button" onclick="location.href='authors';">Сбросить</button>
+  </form>
+</div>
+<br>
+Список книг:
+<div th:each="author : ${authorList}">
+  <p>
+    Автор: <span th:text="${author.name}"/> <span th:text="${author.surname}"/>
+    <br>
+    Книги:
+    <span th:each="book : ${author.books}">
+            <span th:text="${book.title}"/> <span th:text="${book.year}"/> года;
+        </span>
+  </p>
+</div>
+<div th:if="${authorList.empty}">
+  Пусто
+</div>
+<br>
+<button type="button" onclick="location.href='library';">Книги</button>
+</body>
+</html>
