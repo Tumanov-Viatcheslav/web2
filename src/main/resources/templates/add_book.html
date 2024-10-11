@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить книгу</title>
+</head>
+<body>
+<div>
+    <form action="add_book" method="get">
+        <label for="bookTitle">Введите название книги:</label>
+        <input type="text" name="bookTitle" id="bookTitle" required>
+        <label for="bookYear">Введите год публикации:</label>
+        <input type="text" name="bookYear" id="bookYear" required>
+        <br>
+        <label for="authorName1">Введите имя автора:</label>
+        <input type="text" name="authorName1" id="authorName1" required>
+        <label for="authorSurname1">Введите фамилию автора:</label>
+        <input type="text" name="authorSurname1" id="authorSurname1" required>
+        <br>
+        <label for="authorName2">Введите имя автора:</label>
+        <input type="text" name="authorName2" id="authorName2">
+        <label for="authorSurname2">Введите фамилию автора:</label>
+        <input type="text" name="authorSurname2" id="authorSurname2">
+        <br>
+        <label for="authorName3">Введите имя автора:</label>
+        <input type="text" name="authorName3" id="authorName3">
+        <label for="authorSurname3">Введите фамилию автора:</label>
+        <input type="text" name="authorSurname3" id="authorSurname3">
+        <br>
+        <label for="authorName4">Введите имя автора:</label>
+        <input type="text" name="authorName4" id="authorName4">
+        <label for="authorSurname4">Введите фамилию автора:</label>
+        <input type="text" name="authorSurname4" id="authorSurname4">
+        <br>
+        <button type="submit">Подтвердить</button>
+        <button type="button" onclick="location.href='library';">Отмена</button>
+    </form>
+</div>
+<div th:unless="${added}" th:text="${report}">
+</div>
+</body>
+</html>
